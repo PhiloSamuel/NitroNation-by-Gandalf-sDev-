@@ -7,6 +7,7 @@ public class EndTrigger : MonoBehaviour {
 	void OnTriggerEnter ()
 	{
 		gameManager.CompleteLevel();
+		FindObjectOfType<Client_philo>().Close();
 	}
 
 }

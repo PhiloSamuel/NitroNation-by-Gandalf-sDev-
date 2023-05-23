@@ -352,7 +352,6 @@
 "Assets/Scripts/PlayerCollision.cs"
 "Assets/Scripts/PlayerMovement.cs"
 "Assets/Scripts/Score.cs"
-"Assets/Scripts/Server_philo.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01_UGUI.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark02.cs"
