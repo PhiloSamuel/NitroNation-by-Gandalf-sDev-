@@ -26,19 +26,20 @@ public class Client_philo : MonoBehaviour{
 
      void recv()
         {
-            Thread.Sleep(1000);
 
             while (true)
             {
+                            Thread.Sleep(800);
+
                 try
                 { 
                     Byte[] buffer = new Byte[255];
                 int rec = sock.Receive(buffer, 0, buffer.Length, 0);
                 Array.Resize(ref buffer, rec);
                 string recievedmessage=Encoding.Default.GetString(buffer);
-
+                string[] parts1 = recievedmessage.Split(',');
                 if (rec <=0) {
-                    Console.WriteLine(Name+"has disconnected");
+                    Debug.Log(Name+"has disconnected"+"second fail");
                         throw new SocketException();
                         }
 
@@ -51,10 +52,9 @@ public class Client_philo : MonoBehaviour{
 
                     continue;
                 }
-                else{
+                else if(parts1.Length>=3){
                 
                 Debug.Log(recievedmessage);
-                string[] parts1 = recievedmessage.Split(',');
                 float x1 = float.Parse(parts1[0]);
                 float y1 = float.Parse(parts1[1]);
                 float z1 = float.Parse(parts1[2]);
@@ -77,12 +77,9 @@ public class Client_philo : MonoBehaviour{
             {
                 while (true)
                 {
-                                Thread.Sleep(800);
-
-                    if(canplay){
-                        
+                  Thread.Sleep(800);
+                    if(canplay){   
                     Debug.Log(message);
-
                     byte[] data = Encoding.ASCII.GetBytes(message); // Convert the string to bytes
                     sock.Send(data, 0, data.Length, 0);
                     }
@@ -100,8 +97,6 @@ public class Client_philo : MonoBehaviour{
 
 void Start()
     {
-
-         
          int port= 5423;
          IPAddress ip;
         Name="Philo";
@@ -134,9 +129,6 @@ void Start()
             {
                 Console.WriteLine("Error connecting");
             }
-            // Thread rec = new Thread(() => recv(sock));
-            // rec.Start();
-            //Sending the name of the user first before data exchange 
             byte[] name = Encoding.Default.GetBytes( Name );
              Console.WriteLine(Name);
             sock.Send(name, 0, name.Length, 0);
@@ -149,15 +141,6 @@ void Start()
                 float x1 = float.Parse(parts1[0]);
                 float y1 = float.Parse(parts1[1]);
                 float z1 = float.Parse(parts1[2]);
-
-
-
-
-
-
-
-
-
         car3Position = new Vector3(x1, y1,z1);
         GameObject car_3 = GameObject.Find("Car_3"); // Replace "Car1" with the name of your first car object
          car_3.transform.position = car3Position; 
