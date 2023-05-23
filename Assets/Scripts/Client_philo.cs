@@ -13,12 +13,12 @@ public class Client_philo : MonoBehaviour
     //public Vector3 offset;
 
     // Connect to the server when the game starts
-    void Start()
-    {
-        client = new TcpClient("127.0.0.1", 8889);
-        stream = client.GetStream();
-        buffer = new byte[1024];
-    }
+    //void Start()
+    // {
+    //     client = new TcpClient("127.0.0.1", 8889);
+    //     stream = client.GetStream();
+    //     buffer = new byte[1024];
+    // }
 
     // Send the car coordinates to the server every frame
     void Update()
