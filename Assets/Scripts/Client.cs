@@ -9,28 +9,25 @@ using System.Text;
 using System.Threading;
 
 
-public class Client_philo : MonoBehaviour{
+public class Client : MonoBehaviour{
     private Vector3 car2Position;
     private Vector3 car3Position;
     private string Name;
     public Socket sock;
     private int framecounter;
 
-    private int framestowait=100;
+    private int framestowait=20;
 
     private bool canplay=false;
 
     private string message;
 
 
-
      void recv()
         {
-
             while (true)
             {
-                            Thread.Sleep(800);
-
+                         Thread.Sleep(500);
                 try
                 { 
                     Byte[] buffer = new Byte[255];
@@ -38,8 +35,9 @@ public class Client_philo : MonoBehaviour{
                 Array.Resize(ref buffer, rec);
                 string recievedmessage=Encoding.Default.GetString(buffer);
                 string[] parts1 = recievedmessage.Split(',');
+                canplay=true;
                 if (rec <=0) {
-                    Debug.Log(Name+"has disconnected"+"second fail");
+                    Debug.Log(Name+"has disconnected");
                         throw new SocketException();
                         }
 
@@ -65,6 +63,7 @@ public class Client_philo : MonoBehaviour{
                 }
                 catch {
                     Debug.Log("The server was closed you are disconnected");
+                if(sock!=null)
                     sock.Close();
                     break;
                 }
@@ -77,7 +76,7 @@ public class Client_philo : MonoBehaviour{
             {
                 while (true)
                 {
-                  Thread.Sleep(800);
+                  Thread.Sleep(500);
                     if(canplay){   
                     Debug.Log(message);
                     byte[] data = Encoding.ASCII.GetBytes(message); // Convert the string to bytes
@@ -95,7 +94,7 @@ public class Client_philo : MonoBehaviour{
 
 
 
-void Start()
+void Awake()
     {
          int port= 5423;
          IPAddress ip;
@@ -170,7 +169,18 @@ void Start()
         }
     }
 
-
+    private void OnApplicationQuit()
+    {
+        try
+        {
+            sock.Close();
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+    }
+   
     public void Close(){
         sock.Close();
     }
