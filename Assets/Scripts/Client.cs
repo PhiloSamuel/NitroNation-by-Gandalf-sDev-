@@ -122,6 +122,7 @@ void Awake()
         {
             Console.WriteLine("Error connecting");
         }
+
         byte[] name = Encoding.Default.GetBytes( Name );
             Console.WriteLine(Name);
         sock.Send(name, 0, name.Length, 0);
