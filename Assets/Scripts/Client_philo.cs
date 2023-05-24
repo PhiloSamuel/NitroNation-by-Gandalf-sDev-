@@ -123,7 +123,7 @@ void Start()
             try
             {
                 //sock.Connect(new IPEndPoint(ip, port));
-                sock.Connect(new IPEndPoint(IPAddress.Parse("192.168.1.10"), 5423));
+                sock.Connect(new IPEndPoint(IPAddress.Parse("192.168.1.38"), 5423));
             }
             catch (Exception ex)
             {
