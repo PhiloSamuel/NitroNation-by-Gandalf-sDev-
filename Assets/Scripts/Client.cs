@@ -21,7 +21,7 @@ public class Client : MonoBehaviour
     private int framestowait = 10;
 
     private bool canplay = false;
-
+    private bool Recordee = true;
     private string message;
     private int matchNum ;
 
@@ -31,9 +31,10 @@ public class Client : MonoBehaviour
         try
         {
             sock.Close();
-        }
+            Recordee = false;        }
         catch (Exception e)
         {
+
             Debug.Log(e.Message);
         }
     }
@@ -123,9 +124,9 @@ public class Client : MonoBehaviour
      
         try
         {
-            while (true)
+            while (Recordee)
             {
-                Thread.Sleep(800);
+                Thread.Sleep(1000);
                 if (canplay)
                 {
                     var document = new BsonDocument
