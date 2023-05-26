@@ -33,6 +33,7 @@ public class Client : MonoBehaviour
     {
         try
         {
+            singletonInstance.setLogout();
             sock.Close();
             Recordee = false;
         }
@@ -48,7 +49,7 @@ public class Client : MonoBehaviour
 
         while (true)
         {
-            Thread.Sleep(500);
+            Thread.Sleep(150);
             try
             {
                 Byte[] buffer = new Byte[255];
@@ -102,7 +103,7 @@ public class Client : MonoBehaviour
         {
             while (true)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(150);
                 if (canplay)
                 {
                     Debug.Log(message);
@@ -224,7 +225,7 @@ public class Client : MonoBehaviour
         {
 
             car3Position = transform.position; // Get the car position
-            message = car3Position.x + "," + car3Position.y + "," + car3Position.z; // Convert the position to a string
+            message = car3Position.x + "," + car3Position.y + "," + car3Position.z ; // Convert the position to a string
             byte[] data = Encoding.ASCII.GetBytes(message); // Convert the string to bytes
             framecounter = 0;
 
