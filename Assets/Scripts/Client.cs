@@ -9,6 +9,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
+using UnityEngine.SceneManagement;
+
 
 public class Client : MonoBehaviour
 {
@@ -21,7 +23,7 @@ public class Client : MonoBehaviour
     private int framestowait = 10;
 
     private bool canplay = false;
-    private bool Recordee = true;
+    public bool Recordee = true;
     private string message;
     private int matchNum ;
     private read_user singletonInstance;
@@ -33,7 +35,6 @@ public class Client : MonoBehaviour
         {
             sock.Close();
             Recordee = false;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
         catch (Exception e)
         {
@@ -101,7 +102,7 @@ public class Client : MonoBehaviour
         {
             while (true)
             {
-                Thread.Sleep(800);
+                Thread.Sleep(500);
                 if (canplay)
                 {
                     Debug.Log(message);
@@ -167,7 +168,7 @@ public class Client : MonoBehaviour
         try
         {
             //sock.Connect(new IPEndPoint(ip, port));
-            sock.Connect(new IPEndPoint(IPAddress.Parse("192.168.1.38"), 5423));
+            sock.Connect(new IPEndPoint(IPAddress.Parse("192.168.1.20"), 5423));
         }
         catch (Exception ex)
         {

@@ -23,7 +23,7 @@ public class Lobby : MonoBehaviour
     void Start() {
         singletonInstance = GameObject.FindObjectOfType<read_user>();
         Name=singletonInstance.getName();
-        X1=Name;
+        X1="you are:"+ Name;
         X2=X1;
         Thread rcvThread = new Thread(() => rcv());
         rcvThread.Start();
@@ -83,15 +83,7 @@ public class Lobby : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        try
-        {
-            singletonInstance.setLogout();
-        }
-        catch (Exception e)
-        {
-
-            Debug.Log(e.Message);
-        }
+        singletonInstance.setLogout();
     }
 
 

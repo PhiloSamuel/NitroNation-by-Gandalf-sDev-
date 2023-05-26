@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndTrigger : MonoBehaviour {
 
@@ -6,7 +7,8 @@ public class EndTrigger : MonoBehaviour {
 
 	void OnTriggerEnter ()
 	{
-		gameManager.CompleteLevel();
+		gameManager.EndGame();
+
 		FindObjectOfType<Client>().Close();
 	}
 
