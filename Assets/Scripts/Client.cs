@@ -24,6 +24,7 @@ public class Client : MonoBehaviour
     private bool Recordee = true;
     private string message;
     private int matchNum ;
+    private read_user singletonInstance;
 
 
     private void OnApplicationQuit()
@@ -31,7 +32,9 @@ public class Client : MonoBehaviour
         try
         {
             sock.Close();
-            Recordee = false;        }
+            Recordee = false;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        }
         catch (Exception e)
         {
 
@@ -155,9 +158,11 @@ public class Client : MonoBehaviour
 
     void Awake()
     {
+        singletonInstance = GameObject.FindObjectOfType<read_user>();
+
         int port = 5423;
         IPAddress ip;
-        Name = "Nagy";
+        Name = singletonInstance.getName();
         sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         try
         {

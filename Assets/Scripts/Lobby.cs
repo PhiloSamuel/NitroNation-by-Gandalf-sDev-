@@ -80,4 +80,22 @@ public class Lobby : MonoBehaviour
 
 
     }
+
+    private void OnApplicationQuit()
+    {
+        try
+        {
+            singletonInstance.setLogout();
+        }
+        catch (Exception e)
+        {
+
+            Debug.Log(e.Message);
+        }
+    }
+
+
+
+
+
 }
