@@ -25,7 +25,7 @@ public class Client : MonoBehaviour
     private bool canplay = false;
     public bool Recordee = true;
     private string message;
-    private int matchNum ;
+    private int matchNum;
     private read_user singletonInstance;
 
 
@@ -74,6 +74,10 @@ public class Client : MonoBehaviour
                     Debug.Log(recievedmessage);
 
                     continue;
+                }
+                else if (recievedmessage == "STOP")
+                {
+                    canplay = false;
                 }
                 else if (parts1.Length >= 3)
                 {
@@ -126,7 +130,7 @@ public class Client : MonoBehaviour
         IMongoDatabase database = client.GetDatabase("GameDB");
 
         IMongoCollection<BsonDocument> collection = database.GetCollection<BsonDocument>("replay");
-     
+
         try
         {
             while (Recordee)
@@ -141,9 +145,9 @@ public class Client : MonoBehaviour
         { "z",new BsonDouble(car3Position.z) },
           { "Game#",BsonInt32.Create(matchNum)},
         { "UserName", Name }
-       
+
     };
-                    Debug.Log("THIS IS THE DOC"+document);
+                    Debug.Log("THIS IS THE DOC" + document);
                     collection.InsertOne(document);
 
 
@@ -169,7 +173,7 @@ public class Client : MonoBehaviour
         try
         {
             //sock.Connect(new IPEndPoint(ip, port));
-            sock.Connect(new IPEndPoint(IPAddress.Parse("192.168.1.20"), 5423));
+            sock.Connect(new IPEndPoint(IPAddress.Parse("192.168.1.42"), 5423));
         }
         catch (Exception ex)
         {
@@ -199,6 +203,8 @@ public class Client : MonoBehaviour
         int rec1 = sock.Receive(buffer, 0, buffer.Length, 0);
         Array.Resize(ref buffer, rec1);
         string recievedmessage = Encoding.Default.GetString(buffer);
+        Debug.Log(recievedmessage + " <-------This is the ur start loc");
+
         string[] parts1 = recievedmessage.Split(',');
         float x1 = float.Parse(parts1[0]);
         float y1 = float.Parse(parts1[1]);
@@ -221,11 +227,11 @@ public class Client : MonoBehaviour
     {
 
         framecounter++;
-        if (framecounter >= framestowait)
+        if (framecounter >= framestowait && canplay)
         {
 
             car3Position = transform.position; // Get the car position
-            message = car3Position.x + "," + car3Position.y + "," + car3Position.z ; // Convert the position to a string
+            message = car3Position.x + "," + car3Position.y + "," + car3Position.z; // Convert the position to a string
             byte[] data = Encoding.ASCII.GetBytes(message); // Convert the string to bytes
             framecounter = 0;
 
