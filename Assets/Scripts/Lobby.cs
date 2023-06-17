@@ -76,7 +76,7 @@ public class Lobby : MonoBehaviour
     {
         messagePriv = sendPrivText.text;
         singletonInstance.SendMessages(messagePriv);
-        X2 += "\n from: " + messagePub;
+        X2 += "\n from: " + messagePriv;
 
 
     }

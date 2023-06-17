@@ -17,8 +17,9 @@ public class Client : MonoBehaviour
     private Vector3 car2Position;
     private Vector3 car3Position;
     private string Name;
-    public Socket sock;
     private int framecounter;
+    public TcpClient client;
+    private NetworkStream stream;
 
     private int framestowait = 10;
 
@@ -34,7 +35,7 @@ public class Client : MonoBehaviour
         try
         {
             singletonInstance.setLogout();
-            sock.Close();
+            client.Close();
             Recordee = false;
         }
         catch (Exception e)
@@ -53,7 +54,7 @@ public class Client : MonoBehaviour
             try
             {
                 Byte[] buffer = new Byte[255];
-                int rec = sock.Receive(buffer, 0, buffer.Length, 0);
+                int rec = stream.Read(buffer);
                 Array.Resize(ref buffer, rec);
                 string recievedmessage = Encoding.Default.GetString(buffer);
                 string[] parts1 = recievedmessage.Split(',');
@@ -94,7 +95,7 @@ public class Client : MonoBehaviour
             catch
             {
                 Debug.Log("The server was closed you are disconnected");
-                sock.Close();
+                client.Close();
                 break;
             }
         }
@@ -112,7 +113,7 @@ public class Client : MonoBehaviour
                 {
                     Debug.Log(message);
                     byte[] data = Encoding.ASCII.GetBytes(message); // Convert the string to bytes
-                    sock.Send(data, 0, data.Length, 0);
+                    stream.Write(data);
                 }
 
             }
@@ -166,41 +167,29 @@ public class Client : MonoBehaviour
     {
         singletonInstance = GameObject.FindObjectOfType<read_user>();
 
-        int port = 5423;
-        IPAddress ip;
+        IPAddress ipAddress;
+
+        ipAddress = Dns.GetHostAddresses("ec2-13-51-92-187.eu-north-1.compute.amazonaws.com")[0];
+        client = new TcpClient();
+        client.Connect("192.168.1.115", 5423);
+        Console.WriteLine("Connected to server");
+        stream = client.GetStream();
         Name = singletonInstance.getName();
-        sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        try
-        {
-            //sock.Connect(new IPEndPoint(ip, port));
-            sock.Connect(new IPEndPoint(IPAddress.Parse("192.168.1.42"), 5423));
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Error connecting");
-        }
+
         byte[] name = Encoding.Default.GetBytes(Name);
         Console.WriteLine(Name);
-        sock.Send(name, 0, name.Length, 0);
+        stream.Write(name);
 
 
 
         Byte[] buffer2 = new Byte[255];
-        int rec2 = sock.Receive(buffer2, 0, buffer2.Length, 0);
+        int rec2 = stream.Read(buffer2);
         Array.Resize(ref buffer2, rec2);
         matchNum = BitConverter.ToInt32(buffer2, 0);
         Debug.Log(matchNum + " <-------This is the server Num");
-        //string recievedMatch = Encoding.Default.GetString(buffer2);
-        //Debug.Log(recievedMatch);
-        //matchNum=int.Parse(Encoding.Default.GetString(buffer2));
-
-
-
-
-
 
         Byte[] buffer = new Byte[255];
-        int rec1 = sock.Receive(buffer, 0, buffer.Length, 0);
+        int rec1 = stream.Read(buffer);
         Array.Resize(ref buffer, rec1);
         string recievedmessage = Encoding.Default.GetString(buffer);
         Debug.Log(recievedmessage + " <-------This is the ur start loc");
@@ -243,6 +232,6 @@ public class Client : MonoBehaviour
 
     public void Close()
     {
-        sock.Close();
+        client.Close();
     }
 }

@@ -1,3 +1,4 @@
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ public class Menu : MonoBehaviour
 
     public InputField UserNameField;
     public InputField PasswordField;
-
+    public GameObject image;
     public Button SignInButton;
     public Button SignUpButton;
     private read_user singletonInstance;
@@ -33,7 +34,9 @@ public class Menu : MonoBehaviour
          if(singletonInstance.signUp(UserName, Password)=="signup_ok"){
          StartGame();   
         }
-        else {Debug.Log("Invalid Sign up"); }
+        else {Debug.Log("Invalid Sign up");
+        image.SetActive(!image.activeSelf);
+        }
     }
 
     public void SignIn()
