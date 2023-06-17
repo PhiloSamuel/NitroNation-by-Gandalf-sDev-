@@ -42,7 +42,7 @@ void Update(){
      socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
         //connect to the server
-       socket.Connect(new IPEndPoint(IPAddress.Parse("192.168.1.43"), 1234));        
+       socket.Connect(new IPEndPoint(IPAddress.Parse("192.168.1.10"), 8888));        
         }
     
 

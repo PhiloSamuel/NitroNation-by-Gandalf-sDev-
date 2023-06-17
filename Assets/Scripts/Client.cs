@@ -231,7 +231,7 @@ public class Client : MonoBehaviour
         {
 
             car3Position = transform.position; // Get the car position
-            message = car3Position.x + "," + car3Position.y + "," + car3Position.z; // Convert the position to a string
+            message = car3Position.x + "," + car3Position.y + "," + car3Position.z + ","; // Convert the position to a string
             byte[] data = Encoding.ASCII.GetBytes(message); // Convert the string to bytes
             framecounter = 0;
 
